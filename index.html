@@ -206,9 +206,19 @@ body {
   </div>
 
   <div class="my-3 p-3 bg-body rounded shadow-sm">
-    <h6 class="border-bottom pb-2 mb-0">NPC Death</h6>
+    <!--<h6 class="border-bottom pb-2 mb-0">NPC Death</h6>-->
 
     <div class="d-flex text-body-secondary pt-3 row">
+      <div class="col">
+        <div>
+          <label class="form-label">Trigger Type</label>
+          <select class="form-select">
+            <option>NPC Death</option>
+            <option>Encounter Start</option>
+            <option>Encounter End</option>
+          </select>
+        </div>
+      </div>
       <div class="col">
         <div>
           <label class="form-label">NPC ID</label>
@@ -223,7 +233,7 @@ body {
       </div>
       <div class="col">
         <div>
-          <label class="form-label">Description</label>
+          <label class="form-label">Note</label>
           <input type="text" class="form-control">
         </div>
       </div>
