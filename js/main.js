@@ -1,4 +1,5 @@
-fetch("https://www.wowhead.com/classic/item=19019&xml")
-        .then(response => response.text())
-        .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-        .then(data => console.log(data));
+fetch("https://nether.wowhead.com/tooltip/item/19019?dataEnv=4&locale=0")
+        .then((response) => response.json())
+  .then((data) => {
+          console.log(data)
+  })
