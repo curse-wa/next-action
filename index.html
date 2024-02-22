@@ -8,6 +8,7 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.6.0/css/all.min.css" integrity="sha512-ykRBEJhyZ+B/BIJcBuOyUoIxh0OfdICfHPnPfBy7eIiyJv536ojTCsgX8aqrLQ9VJZHGz4tvYyzOM0lkgmQZGw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.css" integrity="sha512-zlYhSecphd+kwRzeCOyj7/u3HZIQ3Q0NP7AN7ZEKhYTdi0AQOGGbc7eA3I/mUffqjdr8G1/9xoS478h+I0MQGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="css/main.css"/>
     
   <title>Custom Next Action - Script Builder</title>
@@ -207,48 +208,51 @@ body {
     </div>
   </div>
 
-  <div class="my-3 p-3 bg-body rounded shadow-sm">
-
-    <div class="d-flex text-body-secondary row">
-      <div class="col">
-        <div>
-          <label class="form-label">Trigger</label>
-          <select class="form-select">
-            <option>NPC Death</option>
-            <option>Encounter Start</option>
-            <option>Encounter End</option>
-          </select>
+  <div id="actions">
+      <div class="my-3 p-3 bg-body rounded shadow-sm">
+  
+      <div class="d-flex text-body-secondary row">
+        <div class="col">
+          <div>
+            <label class="form-label">Trigger</label>
+            <select class="form-select">
+              <option>NPC Death</option>
+              <option>Encounter Start</option>
+              <option>Encounter End</option>
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <div>
+            <label class="form-label">NPC ID</label>
+            <input type="number" class="form-control">
+          </div>
+        </div>
+        <div class="col">
+          <div>
+            <label class="form-label"># Kills</label>
+            <input type="number" class="form-control">
+          </div>
+        </div>
+        <div class="col">
+          <div>
+            <label class="form-label">Note</label>
+            <input type="text" class="form-control">
+          </div>
         </div>
       </div>
-      <div class="col">
-        <div>
-          <label class="form-label">NPC ID</label>
-          <input type="number" class="form-control">
-        </div>
+      
+      <div class="d-flex text-body-secondary pt-3">
+        
       </div>
-      <div class="col">
-        <div>
-          <label class="form-label"># Kills</label>
-          <input type="number" class="form-control">
-        </div>
-      </div>
-      <div class="col">
-        <div>
-          <label class="form-label">Note</label>
-          <input type="text" class="form-control">
-        </div>
-      </div>
-    </div>
-    
-    <div class="d-flex text-body-secondary pt-3">
       
     </div>
-    
   </div>
         
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js" integrity="sha512-NgXVRE+Mxxf647SqmbB9wPS5SEpWiLFp5G7ItUNFi+GVUyQeP+7w4vnKtc2O/Dm74TpTFKXNjakd40pfSKNulg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="js/main.js" crossorigin="anonymous"></script>
 
       </body>
