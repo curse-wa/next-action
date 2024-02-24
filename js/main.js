@@ -148,6 +148,7 @@ const updateAllActionSelect = () => {
 const registermodal = new bootstrap.Modal('#exportModalFullscreen');
 const exportmodal = document.querySelector('#exportModalFullscreen');
 const exportarea = exportmodal.querySelector('.export-area');
+const shareurl = exportmodal.querySelector('.share-url');
 
 const readyExportText = () => {
     
@@ -202,6 +203,7 @@ const readyExportText = () => {
 
     if(!errors){
         exportarea.value = output
+        shareurl.value = insertUrlParam('i',btoa(output))
         errToast.hide()
         registermodal.show()
         document.querySelector('html').style.overflow = 'hidden';
@@ -216,11 +218,12 @@ exportmodal.addEventListener('shown.bs.modal', event => {
 exportmodal.addEventListener('hidden.bs.modal', event => {
     document.querySelector('html').style.overflow = 'visible';
     exportarea.value = '';
+    shareurl.value = '';
     exportarea.blur()
 })
 
-const importText = () => {
-    let text = exportarea.value;
+const importText = (imp) => {
+    let text = imp || exportarea.value;
     let lines = text.split(/\r?\n|\r|\n/g);
     lines = lines.filter(line => /^((\d*)|ENCOUNTER_START|ENCOUNTER_END),/gm.test(line))
 
@@ -259,3 +262,32 @@ drake.on("drop",(el, target, source, sibling) => {
 })
 
 initOnLoad()
+
+function insertUrlParam(key, value) {
+    if (history.pushState) {
+        let searchParams = new URLSearchParams(window.location.search);
+        searchParams.set(key, value);
+        let newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + searchParams.toString();
+        return newurl
+    }
+}
+
+function removeUrlParameter(paramKey) {
+    const url = window.location.href
+    var r = new URL(url)
+    r.searchParams.delete(paramKey)
+    const newUrl = r.href
+    window.history.pushState({ path: newUrl }, '', newUrl)
+}
+
+let params = new URL(document.location).searchParams;
+let imp = params.get("i");
+if(imp){
+    try {
+        let decodedimp = atob(imp)
+        importText(decodedimp)
+        removeUrlParameter("i")
+    } catch (error) {
+        removeUrlParameter("i")
+    }
+}

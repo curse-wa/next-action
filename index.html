@@ -57,7 +57,13 @@
                     <div class="modal-body" style="padding:0;">
                         <textarea class="form-control export-area" data-gramm="false" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">test</textarea>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer d-flex flex-row">
+                        <div>
+                            <i class="fas fa-share"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <input type="text" class="form-control share-url" onfocus="this.select()">
+                        </div>
                         <button type="button" class="btn btn-warning" onclick="importText()"><i class="fas fa-file-import"></i> Import/Overwrite</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
