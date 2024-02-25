@@ -1,8 +1,6 @@
-html,
-body {
+html{
     overflow-x: hidden;
 }
-
 
 .bd-placeholder-img {
     font-size: 1.125rem;
@@ -128,4 +126,40 @@ input[type=number] {
 
 .nav-link{
   cursor: pointer;
+}
+
+.add-template-action {
+  border-top-right-radius: var(--bs-border-radius-sm) !important;
+  border-bottom-right-radius: var(--bs-border-radius-sm) !important;
+}
+
+.dropdown-menu li {
+  position: relative;
+}
+.dropdown-menu .dropdown-submenu {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: -7px;
+}
+.dropdown-menu .dropdown-submenu-left {
+  right: 100%;
+  left: auto;
+}
+.dropdown-menu > li:hover > .dropdown-submenu {
+  display: block;
+}
+
+.sub-header::after{
+  display: inline-block;
+  margin-left: 0.255em;
+  vertical-align: 0.255em;
+  content: "";
+  border-top: 0.3em solid transparent;
+  border-right: 0;
+  border-bottom: 0.3em solid transparent;
+  border-left: 0.3em solid;
+  position: absolute;
+  top: 0.75em;
+  right: var(--bs-dropdown-item-padding-x);
 }

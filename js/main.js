@@ -4,8 +4,9 @@ const actions_element = document.querySelector('#actions');
 const init_element = document.querySelector('#initaction');
 const errToast = new bootstrap.Toast(document.querySelector('#errorToast'));
 const errText = document.querySelector('#errorToast .toast-body .text');
+const whTooltips = {colorLinks: true, iconizeLinks: false, renameLinks: true};
 
-const addTrigger = (type,vals,actions=[[]]) => {
+const addTrigger = (type,vals,actions=[]) => {
     let template = document.querySelector('#template .trigger')
     let clone = template.cloneNode(true)
 
@@ -25,10 +26,12 @@ const addTrigger = (type,vals,actions=[[]]) => {
         if(a[0]) action.querySelector('.action-type').value = a[0]
         if(a[1]) action.querySelector('.action-id').value = a[1]
         actionChange(action)
+        updateActionPreview(action)
     })
 
     let tooltipTriggerList = clone.querySelectorAll('[data-bs-toggle="tooltip"]')
     let tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    updateTriggerPreview(clone)
 }
 
 const initOnLoad = () => {
@@ -43,9 +46,11 @@ const initOnLoad = () => {
 
     init_element.appendChild(clone)
     clone.querySelector('.row').insertAdjacentHTML('beforeend', init.innerHTML);
-    clone.querySelector('.action-pills').appendChild(action)
     clone.querySelector('.keep').remove()
-    updateActionPreview(action)
+    
+    //add 1 action on init
+    // clone.querySelector('.action-pills').appendChild(action)
+    // updateActionPreview(action)
 
     let tooltipTriggerList = clone.querySelectorAll('[data-bs-toggle="tooltip"]')
     let tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
@@ -57,13 +62,13 @@ const confirmDelete = (el,del) => {
     }else if(del === false){
         el.closest('.trigger').classList.remove('border','border-danger')
         el.closest('.card-footer').classList.remove('border-danger')
-        el.closest('.card-footer').querySelector('.action-preview').style.display = 'block';
+        el.closest('.card-footer').querySelector('.previews').style.display = 'block';
         el.closest('.card-footer').querySelector('.trigger-delete').style.display = 'none';
     }else{
         if(el.querySelector('.trigger-select')){
             el.classList.add('border','border-danger')
             el.querySelector('.card-footer').classList.add('border-danger')
-            el.querySelector('.card-footer .action-preview').style.display = 'none';
+            el.querySelector('.card-footer .previews').style.display = 'none';
             el.querySelector('.card-footer .trigger-delete').style.display = 'block';
         }
     }
@@ -79,12 +84,13 @@ const triggerTypeChange = (el) => {
 
     let tooltipTriggerList = row.querySelectorAll('[data-bs-toggle="tooltip"]')
     let tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    updateTriggerPreview(el)
 }
 
 const actionAdd = (el,action) => {
     let template = document.querySelector('#template .action-pill')
     let clone = template.cloneNode(true)
-    el.parentNode.querySelector('.action-pills').appendChild(clone)
+    el.closest('.card-body').querySelector('.action-pills').appendChild(clone)
 
     if(action){
         if(action[0]) clone.querySelector('.action-type').value = action[0]
@@ -121,7 +127,7 @@ const actionChange = (el) => {
         })
 }
 
-const updateActionPreview = (pill,del) =>{
+const updateActionPreview = (pill,del) => {
     let actionPreview = pill.closest('.trigger').querySelector('.action-preview');
     let pill_container = pill.closest('.action-pills');
     if(del) pill.remove()
@@ -133,6 +139,32 @@ const updateActionPreview = (pill,del) =>{
     if(output.length) actionPreview.innerHTML = output;
     else actionPreview.innerHTML = 'no actions to preview';
     updateAllActionSelect()
+}
+
+const updateTriggerPreview = (el) => {
+    let trigger = el.closest('.trigger');
+    let triggerPreview = trigger.querySelector('.trigger-preview');
+    let triggerType = trigger.querySelector('.trigger-select');
+    let output = ''
+    if(triggerType){
+        if(triggerType.value == 'Encounter Start' || triggerType.value == 'Encounter End'){
+            let encounter = trigger.querySelector(`select[name='encounter']`)
+            let text = encounter.options[encounter.selectedIndex].innerText
+            let event = triggerType.value.includes('End')?'END':'START';
+            if(encounter.value){
+                output = `Triggers upon ${text} ENCOUNTER_${event} event`;
+                triggerPreview.innerHTML = output
+            }
+        }else{
+            let npc = trigger.querySelector(`input[name='npc']`).value
+            let kills = trigger.querySelector(`input[name='kills']`).value
+            if(npc && kills && kills>0){
+                output = `Triggers after ${kills} <a href="https://www.wowhead.com/classic/npc=${npc}" target="_blank" data-wh-rename-link="true">${npc}</a> UNIT_DIED events`;
+                triggerPreview.innerHTML = output
+                $WowheadPower.refreshLinks()
+            }
+        }
+    }
 }
 
 const updateAllActionSelect = () => {
