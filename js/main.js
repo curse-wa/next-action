@@ -151,18 +151,17 @@ const updateTriggerPreview = (el) => {
             let text = encounter.options[encounter.selectedIndex].innerText
             let event = triggerType.value.includes('End')?'END':'START';
             if(encounter.value){
-                output = `Triggers upon ${text} ENCOUNTER_${event} event`;
-                triggerPreview.innerHTML = output
+                output = `Triggers upon ${text} ENCOUNTER_${event} event`;  
             }
         }else{
             let npc = trigger.querySelector(`input[name='npc']`).value
             let kills = trigger.querySelector(`input[name='kills']`).value
             if(npc && kills && kills>0){
-                output = `Triggers after ${kills} <a href="https://www.wowhead.com/classic/npc=${npc}" target="_blank" data-wh-rename-link="true">${npc}</a> UNIT_DIED events`;
-                triggerPreview.innerHTML = output
-                $WowheadPower.refreshLinks()
+                output = `Triggers after ${kills} <a href="https://www.wowhead.com/classic/npc=${npc}" target="_blank" data-wh-rename-link="true">${npc}</a> UNIT_DIED events`; 
             }
         }
+        triggerPreview.innerHTML = output
+        $WowheadPower.refreshLinks()
     }
 }
 
