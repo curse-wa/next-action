@@ -28,7 +28,7 @@ const addTrigger = (type,vals,actions=[[]]) => {
         actionChange(action)
         updateActionPreview(action)
     })
-
+    
     let tooltipTriggerList = clone.querySelectorAll('[data-bs-toggle="tooltip"]')
     let tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     updateTriggerPreview(clone)
@@ -80,7 +80,7 @@ const triggerTypeChange = (el) => {
     let init = inittemp.cloneNode(true);
     [...row.querySelectorAll('.col:not(.keep)')].forEach(e=>e.remove());
     row.insertAdjacentHTML('beforeend', init.innerHTML);
-
+    
     let tooltipTriggerList = row.querySelectorAll('[data-bs-toggle="tooltip"]')
     let tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     updateTriggerPreview(el)
@@ -161,7 +161,7 @@ const updateTriggerPreview = (el) => {
             }
         }
         triggerPreview.innerHTML = output
-        $WowheadPower.refreshLinks()
+        if(!imp) $WowheadPower.refreshLinks()
     }
 }
 
@@ -269,7 +269,7 @@ const importText = (imp) => {
         let sections = line.split(',');
         let actions = sections.splice(3);
         actions = actions.map(a=>a.trim().split(':'))
-        
+
         if(index==0){
             let trigger = document.querySelector('#initaction .trigger');
             trigger.querySelector(`input[name='desc']`).value = sections[2].replace(/\"/gi,'');
