@@ -6,7 +6,7 @@ const errToast = new bootstrap.Toast(document.querySelector('#errorToast'));
 const errText = document.querySelector('#errorToast .toast-body .text');
 const whTooltips = {colorLinks: true, iconizeLinks: false, renameLinks: true};
 
-const addTrigger = (type,vals,actions=[]) => {
+const addTrigger = (type,vals,actions=[[]]) => {
     let template = document.querySelector('#template .trigger')
     let clone = template.cloneNode(true)
 
@@ -48,9 +48,8 @@ const initOnLoad = () => {
     clone.querySelector('.row').insertAdjacentHTML('beforeend', init.innerHTML);
     clone.querySelector('.keep').remove()
     
-    //add 1 action on init
-    // clone.querySelector('.action-pills').appendChild(action)
-    // updateActionPreview(action)
+    clone.querySelector('.action-pills').appendChild(action)
+    updateActionPreview(action)
 
     let tooltipTriggerList = clone.querySelectorAll('[data-bs-toggle="tooltip"]')
     let tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
