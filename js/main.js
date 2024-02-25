@@ -286,10 +286,11 @@ const importText = (imp) => {
     registermodal.hide()
 }
 
-let drake  = dragula([actions_element]);
-drake.on("drop",(el, target, source, sibling) => {
-    console.log(el, target, source, sibling)
-})
+let drake  = dragula([actions_element],{
+    invalid: function (el, handle) {
+        return ['A','BUTTON','INPUT','SELECT'].includes(el.tagName);
+    }
+});
 
 initOnLoad()
 
