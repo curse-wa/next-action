@@ -27,6 +27,9 @@
                             <a class="nav-link" onclick="readyExportText()"><i class="fas fa-file-code"></i> Import/Export</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#guideModal"><i class="fas fa-book"></i> User Guide</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="https://wago.io/nextaction" target="_blank"><i class="fas fa-link"></i> WeakAura</a>
                         </li>
                     </ul>
@@ -66,6 +69,166 @@
                         </div>
                         <button type="button" class="btn btn-warning" onclick="importText()"><i class="fas fa-file-import"></i> Import/Overwrite</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="guideModal" tabindex="-1" aria-labelledby="guideModalLabel" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-4" id="guideModalLabel">User Guide</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="accordion" id="GuideAccordion">
+                            
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#guide1" aria-expanded="true" aria-controls="guide1">
+                                        1. Getting Started
+                                    </button>
+                                </h2>
+                                <div id="guide1" class="accordion-collapse collapse show" data-bs-parent="#GuideAccordion">
+                                    <div class="accordion-body">
+                                        <p>
+                                            This app is for generating "scripts" to be imported into the <a href="https://wago.io/nextaction" target="_blank">Custom Next Action WeakAura</a>.
+                                            The purpose of the CNA WeakAura is to remind you of your next actions within a well defined raid route. You can either chose to create your own CNA script using this tool, or import someone elses script to edit and make your own.
+                                        </p>
+                                        <p>
+                                            The basic idea behind this WA is very simple; when an NPC dies or when a raid encounter begins/ends you can create a trigger which has actions assigned to it. Those actions are displayed on your screen until the next trigger condition is satisfied.<br>
+                                            <strong>The WeakAura does NOT check if the actions are actually completed. It simply displays them as a reminder until the next trigger is active.</strong>
+                                        </p>
+                                        <p>
+                                            <strong class="text-info">Trigger:</strong> the event(s) in-game that you use to determine what is shown on screen.<br>
+                                            <strong class="text-warning">Action:</strong> the actual icons displayed on screen when a trigger is active. Can be either item or spell ID based.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#guide2" aria-expanded="false" aria-controls="guide2">
+                                        2. Adding Triggers
+                                    </button>
+                                </h2>
+                                <div id="guide2" class="accordion-collapse collapse" data-bs-parent="#GuideAccordion">
+                                    <div class="accordion-body">
+                                        <p>
+                                            Every script must begin with an On-Load trigger, which when using this tool - cannot be deleted. This trigger just contains the actions you want shown on screen when you enter a new instance (or reload UI, login, etc.) <b>You can choose to not show anything for this on-load trigger by setting the Note field to "-1" which tells the WeakAura to display false</b>
+                                        </p>
+                                        <p>
+                                            To add a new Trigger you just click on the large area below the bottom-most trigger on the page labeled "+ Trigger"<br>
+                                            By default the new trigger will be set as an NPC Death type trigger which expects an NPC ID and a number of kills.
+                                        </p>
+                                        <ul>
+                                            <li>
+                                                <strong class="text-primary">NPC Death:</strong> Triggers after the given NPC ID is killed the given number of times <u>since the previous trigger was active.</u> This means kills of a given NPC ID are not counted until the previous trigger in the script is completed.
+                                            </li>
+                                            <li>
+                                                <strong class="text-success">Encounter Start:</strong> Triggers at the beginning of an encounter. This is most useful for reminders of what you need to do mid-fight or just after. Actions that require a combat drop should not use this trigger type.
+                                            </li>
+                                            <li>
+                                                <strong class="text-danger">Encounter End:</strong> Triggers at the end of a <u>successful</u> encounter. This will not trigger on a wipe and thus can be used for actions that should be taken directly after an encounter safely.
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#guide3" aria-expanded="false" aria-controls="guide3">
+                                        3. Adding Actions
+                                    </button>
+                                </h2>
+                                <div id="guide3" class="accordion-collapse collapse" data-bs-parent="#GuideAccordion">
+                                    <div class="accordion-body">
+                                        <p>
+                                            Within each Trigger section on the page you will see a button labeled "+ Action" with a smaller dropdown arrow to the right. You can either simply click the button to add a blank action to the trigger, or click the dropdown arrow to select one of the preloaded items for quick access.
+                                        </p>
+                                        <p>
+                                            Actions can be either Item or Spell IDs, select using the dropdown which type of action you want and then input the Item or Spell ID which you can find on wowhead or various in-game tooltip addons that show this data. With both item and spell IDs we can cover pretty much every icon available in-game.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#guide4" aria-expanded="false" aria-controls="guide4">
+                                        4. Removing Triggers and Actions
+                                    </button>
+                                </h2>
+                                <div id="guide4" class="accordion-collapse collapse" data-bs-parent="#GuideAccordion">
+                                    <div class="accordion-body">
+                                        <p>
+                                            To delete a trigger (other than the on-load trigger) you can double click on the trigger and a confirmation message to delete the trigger will appear below it.
+                                        </p>
+                                        <p>
+                                            To delete an action you can choose the "delete" option in the dropdown box if there is at least 2 actions. If only 1 action exists for a trigger the delete option will not be available.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#guide5" aria-expanded="false" aria-controls="guide5">
+                                        5. Re-ordering Triggers and Actions
+                                    </button>
+                                </h2>
+                                <div id="guide5" class="accordion-collapse collapse" data-bs-parent="#GuideAccordion">
+                                    <div class="accordion-body">
+                                        <p>
+                                            Drag and drop triggers to re-order them
+                                        </p>
+                                        <p>
+                                            Actions cannot be re-ordered at this time. But you can simply make a new trigger ahead of the previous and then delete the original trigger to pseudo re-order them. I may add this feature at some point.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#guide6" aria-expanded="false" aria-controls="guide6">
+                                        6. Importing/Exporting scripts to the app
+                                    </button>
+                                </h2>
+                                <div id="guide6" class="accordion-collapse collapse" data-bs-parent="#GuideAccordion">
+                                    <div class="accordion-body">
+                                        <p>
+                                            To import a script click the "Import/Export" link in the top-right corner of the screen. Paste in the script you wish to import and click "Import/Overwrite". <b>It's important to note, this will overwrite any existing data in the app so be cautious.</b>
+                                        </p>
+                                        <p>
+                                            When you click the "Import/Export" link you will notice any trigger/action data in the app will get converted to an output script. You can either copy/paste the script directly into the WeakAura in-game or copy the sharable link at the bottom of the screen to send to others.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#guide7" aria-expanded="false" aria-controls="guide7">
+                                        7. Importing scripts into the WeakAura
+                                    </button>
+                                </h2>
+                                <div id="guide7" class="accordion-collapse collapse" data-bs-parent="#GuideAccordion">
+                                    <div class="accordion-body">
+                                        <p>
+                                            Once you have the WeakAura installed, and a script ready to import. Simply select the WA from the side-bar and navigate to the "Custom Options" tab. From there you will see a multi-line text box labeled "Paste Trigger Script here". If there is already text in this box you should clear it and paste your script into the field. Click the accept button below the textbox to confirm.
+                                        </p>
+                                        <p>
+                                            If everything imported correctly you should see the entire scripts actions displayed in a grid for review. You may need to close and re-open the WeakAuras menu for all of the icons to be loaded correctly.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -134,7 +297,7 @@
                 </div>
                 <div class="col">
                     <div>
-                        <label class="form-label">Note <i class="fas fa-info-circle" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="note that displays under the actions for this trigger"></i></label>
+                        <label class="form-label">Note <i class="fas fa-info-circle" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="note that displays under the actions for this trigger. Set this value to -1 to make this a hidden trigger"></i></label>
                         <input type="text" class="form-control" name="desc">
                     </div>
                 </div>
@@ -143,7 +306,7 @@
             <div class="load">
                 <div class="col">
                     <div>
-                        <label class="form-label">Note <i class="fas fa-info-circle" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="note that displays under the actions for this trigger"></i></label>
+                        <label class="form-label">Note <i class="fas fa-info-circle" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="note that displays under the actions for this trigger. Set this value to -1 to make this a hidden trigger"></i></label>
                         <input type="text" class="form-control" name="desc">
                     </div>
                 </div>
@@ -180,7 +343,7 @@
                 </div>
                 <div class="col">
                     <div>
-                        <label class="form-label">Note <i class="fas fa-info-circle" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="note that displays under the actions for this trigger"></i></label>
+                        <label class="form-label">Note <i class="fas fa-info-circle" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="note that displays under the actions for this trigger. Set this value to -1 to make this a hidden trigger"></i></label>
                         <input type="text" class="form-control" name="desc">
                     </div>
                 </div>

@@ -1,12 +1,16 @@
 //if youre looking for some fancy framework, look elsewhere. this is quick and dirty
 
-const actions_element = document.querySelector('#actions');
-const init_element = document.querySelector('#initaction');
-const errToast = new bootstrap.Toast(document.querySelector('#errorToast'));
-const errText = document.querySelector('#errorToast .toast-body .text');
-const whTooltips = {colorLinks: true, iconizeLinks: false, renameLinks: true};
+const actions_element = document.querySelector('#actions'),
+      init_element    = document.querySelector('#initaction'),
+      errToast        = new bootstrap.Toast(document.querySelector('#errorToast')),
+      errText         = document.querySelector('#errorToast .toast-body .text'),
+      registermodal   = new bootstrap.Modal('#exportModalFullscreen'),
+      exportmodal     = document.querySelector('#exportModalFullscreen'),
+      exportarea      = exportmodal.querySelector('.export-area'),
+      shareurl        = exportmodal.querySelector('.share-url'),
+      whTooltips      = {colorLinks: true, iconizeLinks: false, renameLinks: true},
 
-const addTrigger = (type,vals,actions=[[]]) => {
+addTrigger = (type,vals,actions=[[]]) => {
     let template = document.querySelector('#template .trigger')
     let clone = template.cloneNode(true)
 
@@ -32,9 +36,9 @@ const addTrigger = (type,vals,actions=[[]]) => {
     let tooltipTriggerList = clone.querySelectorAll('[data-bs-toggle="tooltip"]')
     let tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     updateTriggerPreview(clone)
-}
+},
 
-const initOnLoad = () => {
+initOnLoad = () => {
     let template = document.querySelector('#template .trigger')
     let clone = template.cloneNode(true)
 
@@ -53,9 +57,9 @@ const initOnLoad = () => {
 
     let tooltipTriggerList = clone.querySelectorAll('[data-bs-toggle="tooltip"]')
     let tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-}
+},
 
-const confirmDelete = (el,del) => {
+confirmDelete = (el,del) => {
     if(del === true){
         el.closest('.trigger').remove()
     }else if(del === false){
@@ -71,9 +75,9 @@ const confirmDelete = (el,del) => {
             el.querySelector('.card-footer .trigger-delete').style.display = 'block';
         }
     }
-}
+},
 
-const triggerTypeChange = (el) => {
+triggerTypeChange = (el) => {
     let row = el.closest('.row');
     let selector = el.value == 'NPC Death'?'#template .npcdeath':'#template .encounter';
     let inittemp = document.querySelector(selector);
@@ -84,9 +88,9 @@ const triggerTypeChange = (el) => {
     let tooltipTriggerList = row.querySelectorAll('[data-bs-toggle="tooltip"]')
     let tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     updateTriggerPreview(el)
-}
+},
 
-const actionAdd = (el,action) => {
+actionAdd = (el,action) => {
     let template = document.querySelector('#template .action-pill')
     let clone = template.cloneNode(true)
     el.closest('.card-body').querySelector('.action-pills').appendChild(clone)
@@ -99,9 +103,9 @@ const actionAdd = (el,action) => {
     updateAllActionSelect()
     if(action) actionChange(clone);
     else updateActionPreview(clone);
-}
+},
 
-const actionChange = (el) => {
+actionChange = (el) => {
     let pill = el.closest('.action-pill')
 
     if(el.value == 'delete'){
@@ -124,9 +128,9 @@ const actionChange = (el) => {
             pill.dataset.icon = "";
             updateActionPreview(pill)
         })
-}
+},
 
-const updateActionPreview = (pill,del) => {
+updateActionPreview = (pill,del) => {
     let actionPreview = pill.closest('.trigger').querySelector('.action-preview');
     let pill_container = pill.closest('.action-pills');
     if(del) pill.remove()
@@ -138,9 +142,9 @@ const updateActionPreview = (pill,del) => {
     if(output.length) actionPreview.innerHTML = output;
     else actionPreview.innerHTML = 'no actions to preview';
     updateAllActionSelect()
-}
+},
 
-const updateTriggerPreview = (el) => {
+updateTriggerPreview = (el) => {
     let trigger = el.closest('.trigger');
     let triggerPreview = trigger.querySelector('.trigger-preview');
     let triggerType = trigger.querySelector('.trigger-select');
@@ -163,9 +167,9 @@ const updateTriggerPreview = (el) => {
         triggerPreview.innerHTML = output
         if(!imp) $WowheadPower.refreshLinks()
     }
-}
+},
 
-const updateAllActionSelect = () => {
+updateAllActionSelect = () => {
     [...document.querySelectorAll('.action-pills')].forEach(group => {
         let all = [...group.querySelectorAll('.action-pill')];
         all.forEach(el => {
@@ -173,14 +177,9 @@ const updateAllActionSelect = () => {
             el.querySelector('select').options[3].hidden = all.length<2
         })
     })
-}
+},
 
-const registermodal = new bootstrap.Modal('#exportModalFullscreen');
-const exportmodal = document.querySelector('#exportModalFullscreen');
-const exportarea = exportmodal.querySelector('.export-area');
-const shareurl = exportmodal.querySelector('.share-url');
-
-const readyExportText = () => {
+readyExportText = () => {
     
     let triggers = [...document.querySelectorAll('main .trigger')];
     let output = '';
@@ -196,7 +195,7 @@ const readyExportText = () => {
         })
 
         if(!trigger_type){
-            let desc = trigger.querySelector(`input[name='desc']`).value
+            let desc = trigger.querySelector(`input[name='desc']`).value.replace(/,/gi,'')
             output+=`0,0,"${desc||''}",${actions.join(',')}`;
         }else if(trigger_type.value=='Encounter Start'){
             let encounter = trigger.querySelector(`select[name='encounter']`).value
@@ -205,7 +204,7 @@ const readyExportText = () => {
                 errToast.show()
                 errors = true
             }
-            let desc = trigger.querySelector(`input[name='desc']`).value
+            let desc = trigger.querySelector(`input[name='desc']`).value.replace(/,/gi,'')
             output+=`ENCOUNTER_START,${encounter},"${desc||''}",${actions.join(',')}`;
         }else if(trigger_type.value=='Encounter End'){
             let encounter = trigger.querySelector(`select[name='encounter']`).value
@@ -214,7 +213,7 @@ const readyExportText = () => {
                 errToast.show()
                 errors = true
             }
-            let desc = trigger.querySelector(`input[name='desc']`).value
+            let desc = trigger.querySelector(`input[name='desc']`).value.replace(/,/gi,'')
             output+=`ENCOUNTER_END,${encounter},"${desc||''}",${actions.join(',')}`;
         }else{
             let npc = trigger.querySelector(`input[name='npc']`).value
@@ -224,7 +223,7 @@ const readyExportText = () => {
                 errToast.show()
                 errors = true
             }
-            let desc = trigger.querySelector(`input[name='desc']`).value
+            let desc = trigger.querySelector(`input[name='desc']`).value.replace(/,/gi,'')
             output+=`${npc},${kills},"${desc||''}",${actions.join(',')}`;
         }
 
@@ -238,21 +237,9 @@ const readyExportText = () => {
         registermodal.show()
         document.querySelector('html').style.overflow = 'hidden';
     }
-}
+},
 
-exportmodal.addEventListener('shown.bs.modal', event => {
-    exportarea.focus()
-    exportarea.select()
-})
-
-exportmodal.addEventListener('hidden.bs.modal', event => {
-    document.querySelector('html').style.overflow = 'visible';
-    exportarea.value = '';
-    shareurl.value = '';
-    exportarea.blur()
-})
-
-const importText = (imp) => {
+importText = (imp) => {
     let text = imp || exportarea.value;
     let lines = text.split(/\r?\n|\r|\n/g);
     lines = lines.filter(line => /^((\d*)|ENCOUNTER_START|ENCOUNTER_END),/gm.test(line))
@@ -284,7 +271,36 @@ const importText = (imp) => {
     })
 
     registermodal.hide()
+},
+
+insertUrlParam = (key, value) => {
+    if (history.pushState) {
+        let searchParams = new URLSearchParams(window.location.search);
+        searchParams.set(key, value);
+        let newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + searchParams.toString();
+        return newurl
+    }
+},
+
+removeUrlParameter = (paramKey) => {
+    const url = window.location.href
+    var r = new URL(url)
+    r.searchParams.delete(paramKey)
+    const newUrl = r.href
+    window.history.pushState({ path: newUrl }, '', newUrl)
 }
+
+exportmodal.addEventListener('shown.bs.modal', event => {
+    exportarea.focus()
+    exportarea.select()
+})
+
+exportmodal.addEventListener('hidden.bs.modal', event => {
+    document.querySelector('html').style.overflow = 'visible';
+    exportarea.value = '';
+    shareurl.value = '';
+    exportarea.blur()
+})
 
 let drake  = dragula([actions_element],{
     invalid: function (el, handle) {
@@ -293,23 +309,6 @@ let drake  = dragula([actions_element],{
 });
 
 initOnLoad()
-
-function insertUrlParam(key, value) {
-    if (history.pushState) {
-        let searchParams = new URLSearchParams(window.location.search);
-        searchParams.set(key, value);
-        let newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + searchParams.toString();
-        return newurl
-    }
-}
-
-function removeUrlParameter(paramKey) {
-    const url = window.location.href
-    var r = new URL(url)
-    r.searchParams.delete(paramKey)
-    const newUrl = r.href
-    window.history.pushState({ path: newUrl }, '', newUrl)
-}
 
 let params = new URL(document.location).searchParams;
 let imp = params.get("i");
