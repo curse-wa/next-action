@@ -306,6 +306,15 @@
             <div class="load">
                 <div class="col">
                     <div>
+                        <label class="form-label">Instance</label>
+                        <select class="form-select" name="instance" onchange="">
+                            <option selected>Naxxramas</option>
+                            <option disabled>Other instance options coming soon...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div>
                         <label class="form-label">Note <i class="fas fa-info-circle" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="note that displays under the actions for this trigger. Set this value to -1 to make this a hidden trigger"></i></label>
                         <input type="text" class="form-control" name="desc">
                     </div>
@@ -318,8 +327,6 @@
                         <label class="form-label">Encounter</label>
                         <select class="form-select" name="encounter" onchange="updateTriggerPreview(this)">
                             <option selected></option>
-
-                            <option disabled>-Naxxramas-</option>
                             <option value="1107">Anub'Rekhan</option>
                             <option value="1110">Grand Widow Faerlina</option>
                             <option value="1116">Maexxna</option>
@@ -335,9 +342,6 @@
                             <option value="1120">Thaddius</option>
                             <option value="1119">Sapphiron</option>
                             <option value="1114">Kel'Thuzad</option>
-
-                            <option disabled></option>
-                            <option disabled>Will add other raids later...</option>
                         </select>
                     </div>
                 </div>

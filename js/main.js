@@ -196,6 +196,8 @@ readyExportText = () => {
 
         if(!trigger_type){
             let desc = trigger.querySelector(`input[name='desc']`).value.replace(/,/gi,'')
+            let instance = trigger.querySelector(`select[name='instance']`).value;
+            output+=`LOAD_ZONE:${instance||''}\n`;
             output+=`0,0,"${desc||''}",${actions.join(',')}`;
         }else if(trigger_type.value=='Encounter Start'){
             let encounter = trigger.querySelector(`select[name='encounter']`).value
@@ -242,9 +244,11 @@ readyExportText = () => {
 importText = (imp) => {
     let text = imp || exportarea.value;
     let lines = text.split(/\r?\n|\r|\n/g);
+    let instance = lines.find(line => line.includes('LOAD_ZONE:'));
+    instance = instance.replace('LOAD_ZONE:','')
     lines = lines.filter(line => /^((\d*)|ENCOUNTER_START|ENCOUNTER_END),/gm.test(line))
 
-    if(lines[0].substring(0,4) != '0,0,'){
+    if(lines[0].substring(0,4) != '0,0,' || !instance){
         console.log('invalid start')
         //invalid start
     }
@@ -260,6 +264,7 @@ importText = (imp) => {
         if(index==0){
             let trigger = document.querySelector('#initaction .trigger');
             trigger.querySelector(`input[name='desc']`).value = sections[2].replace(/\"/gi,'');
+            trigger.querySelector(`select[name='instance']`).value = instance;
             actions.forEach(action => actionAdd(trigger.querySelector('.add-action-btn'), action))
         }else{
             let type = sections[0].includes('ENCOUNTER')?'Encounter '+(sections[0].includes('END')?'End':'Start'):'NPC Death';
